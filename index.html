@@ -118,7 +118,37 @@
 
   <p id="login-message" role="status"></p>
 </section>
+<!-- ADMINISTRATOR DASHBOARD -->
+<section class="card" id="admin-dashboard" hidden>
+  <h2>💜 Administrator Dashboard</h2>
 
+  <p>Welcome to the Example of Christ Youth Praise Team Management System!</p>
+
+  <h3>👥 Member Management</h3>
+  <p>View, approve, and manage praise team members.</p>
+  <button type="button" id="manage-members-btn">
+    Manage Members
+  </button>
+
+  <h3>📋 Attendance Management</h3>
+  <p>Mark attendance for rehearsals and church services.</p>
+  <button type="button" id="attendance-btn">
+    Mark Attendance
+  </button>
+
+  <h3>📅 Schedules & Reports</h3>
+  <p>Manage schedules and view attendance reports.</p>
+  <button type="button" id="reports-btn">
+    View Reports
+  </button>
+
+  <hr>
+
+  <button type="button" id="admin-logout-btn">
+    🚪 Log Out
+  </button>
+</section>
+<!-- END ADMINISTRATOR DASHBOARD -->
 <section class="card" id="member-registration">
   <h2>Praise Team Member Registration</h2>
   <p>Register to join the praise team. Your registration will be reviewed by an administrator.</p>
@@ -185,7 +215,8 @@ document.getElementById("login-form").addEventListener("submit", async function(
     return;
   }
 
-  message.textContent = "Welcome! Administrator login successful.";
+  message.textContent = "Welcome! Administrator login".
+  document.getElementById("admin-dashboard").hidden = false;
 });
 
 // PRAISE TEAM MEMBER REGISTRATION
@@ -251,6 +282,24 @@ if (isEmailConfirmation) {
   });
 // EMAIL CONFIRMATION SUCCESS MESSAGE
 
+  // ADMINISTRATOR LOGOUT
+document.getElementById("admin-logout-btn")
+  .addEventListener("click", async function () {
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+      alert("Log out failed: " + error.message);
+      return;
+    }
+
+    document.getElementById("admin-dashboard").hidden = true;
+
+    document.getElementById("login-message").textContent =
+      "You have successfully logged out.";
+
+    document.getElementById("login-form").reset();
+  });
+// END ADMINISTRATOR LOGOUT
 </script>
 
 </body>
