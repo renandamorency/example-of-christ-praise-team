@@ -188,6 +188,38 @@ document.getElementById("login-form").addEventListener("submit", async function(
   message.textContent = "Welcome! Administrator login successful.";
 });
 
+// PRAISE TEAM MEMBER REGISTRATION
+
+document.getElementById("registration-form")
+  .addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("member-name").value.trim();
+    const email = document.getElementById("member-email").value.trim();
+    const password = document.getElementById("member-password").value;
+    const message = document.getElementById("registration-message");
+
+    message.textContent = "Registering...";
+
+    const { data, error } = await supabaseClient.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          full_name: name
+        }
+      }
+    });
+
+    if (error) {
+      message.textContent = "Registration failed: " + error.message;
+      return;
+    }
+
+    message.textContent =
+      "Registration received! Please check your email to confirm your account. Your membership will need administrator approval.";
+  });
+  
 </script>
 
 </body>
