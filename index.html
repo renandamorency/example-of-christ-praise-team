@@ -205,10 +205,11 @@ document.getElementById("registration-form")
       email: email,
       password: password,
       options: {
-        data: {
-          full_name: name
-        }
-      }
+  emailRedirectTo: "https://renandamorency.github.io/example-of-christ-praise-team/",
+  data: {
+    full_name: name
+  }
+}
     });
 
     if (error) {
