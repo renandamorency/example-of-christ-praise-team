@@ -219,7 +219,26 @@ document.getElementById("registration-form")
     message.textContent =
       "Registration received! Please check your email to confirm your account. Your membership will need administrator approval.";
   });
-  
+  // EMAIL CONFIRMATION SUCCESS MESSAGE
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (event === "SIGNED_IN" && session) {
+    const params = new URLSearchParams(window.location.search);
+    const hash = new URLSearchParams(window.location.hash.substring(1));
+
+    if (
+      params.get("code") ||
+      hash.get("access_token") ||
+      params.get("type") === "signup"
+    ) {
+      alert(
+        "🎉 Email Confirmed Successfully!\n\n" +
+        "Thank you for confirming your email address.\n\n" +
+        "Your Praise Team registration is now awaiting administrator approval."
+      );
+    }
+  }
+});
 </script>
 
 </body>
