@@ -220,26 +220,37 @@ document.getElementById("registration-form")
     message.textContent =
       "Registration received! Please check your email to confirm your account. Your membership will need administrator approval.";
   });
-  // EMAIL CONFIRMATION SUCCESS MESSAGE
+  /// EMAIL CONFIRMATION SUCCESS MESSAGE
+const confirmationParams = new URLSearchParams(
+  window.location.search
+);
 
-supabaseClient.auth.onAuthStateChange((event, session) => {
-  if (event === "SIGNED_IN" && session) {
-    const params = new URLSearchParams(window.location.search);
-    const hash = new URLSearchParams(window.location.hash.substring(1));
+const confirmationHash = new URLSearchParams(
+  window.location.hash.substring(1)
+);
 
-    if (
-      params.get("code") ||
-      hash.get("access_token") ||
-      params.get("type") === "signup"
-    ) {
+const isEmailConfirmation =
+  confirmationParams.get("type") === "signup" ||
+  confirmationHash.get("type") === "signup";
+
+if (isEmailConfirmation) {
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (event === "SIGNED_IN" && session) {
       alert(
         "🎉 Email Confirmed Successfully!\n\n" +
         "Thank you for confirming your email address.\n\n" +
-        "Your Praise Team registration is now awaiting administrator approval."
+        "Your Praise Team registration is awaiting administrator approval."
+      );
+
+      window.history.replaceState(
+        {},
+        document.title,
+        window.location.pathname
       );
     }
-  }
-});
+  });
+// EMAIL CONFIRMATION SUCCESS MESSAGE
+
 </script>
 
 </body>
